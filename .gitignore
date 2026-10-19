@@ -1,0 +1,20 @@
+# Operating System & IDE junk
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# AI Assistant & Internal Folders
+.agents/
+.claude/
+
+# Raw intermediate data (keep only the final clean csv and model pkl)
+ap_weather_raw_scraped.csv
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+.ipynb_checkpoints/
+venv/
+env/

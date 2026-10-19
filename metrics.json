@@ -1,0 +1,12 @@
+{
+    "model_name": "Multiple Linear Regression",
+    "station": "Vijayawada Gannavaram (ws-431810)",
+    "target_variable": "Tomorrow's Maximum Temperature (TM)",
+    "total_dataset_rows": 1332,
+    "metrics": {
+        "train_r2_score": 0.9188,
+        "test_r2_score": 0.9032,
+        "test_mae_celsius": 0.69,
+        "test_rmse_celsius": 0.96
+    }
+}
