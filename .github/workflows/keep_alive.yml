@@ -40,7 +40,7 @@ jobs:
         with sync_playwright() as p:
             # Open a hidden browser window
             browser = p.chromium.launch(headless=True)
-            page = browser.new-page()
+            page = browser.new_page()
             page.goto(url)
             
             # Wait for the Streamlit page to load completely
