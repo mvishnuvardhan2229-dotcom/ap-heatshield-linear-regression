@@ -1,0 +1,61 @@
+name: Keep Streamlit App Awake
+
+on:
+  schedule:
+    # This runs the script automatically every 10 hours
+    - cron: '0 */10 * * *'
+  # This lets you run it manually anytime you want to test it
+  workflow_dispatch:
+
+jobs:
+  wake-up-app:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
+
+    - name: Install Automated Browser (Playwright)
+      run: |
+        python -m pip install --upgrade pip
+        pip install playwright
+        playwright install chromium
+
+    - name: Visit App and Click Wake Up
+      env:
+        APP_URL: ${{ secrets.STREAMLIT_URL }}
+      run: |
+        python -c "
+        import os
+        import time
+        from playwright.sync_api import sync_playwright
+
+        url = os.environ.get('APP_URL')
+        print(f'Navigating to: {url}')
+
+        with sync_playwright() as p:
+            # Open a hidden browser window
+            browser = p.chromium.launch(headless=True)
+            page = browser.new-page()
+            page.goto(url)
+            
+            # Wait for the Streamlit page to load completely
+            time.sleep(10) 
+            
+            # Look for the 'Yes, get this app back up!' button
+            wake_button = page.locator('text=\"Yes, get this app back up!\"')
+            
+            if wake_button.count() > 0:
+                print('App is asleep! Clicking the wake up button...')
+                wake_button.click()
+                time.sleep(15) # Wait for it to start loading
+                print('Wake up signal sent successfully.')
+            else:
+                print('App is already awake and active!')
+                
+            browser.close()
+        "
